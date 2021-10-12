@@ -60,7 +60,7 @@ class Room {
     { room_owner, room_name, password }) {
     let hashedPassword;
     let hasPass;
-
+    console.log(password);
     const duplicateCheck = await db.query(
       `SELECT room_name
       FROM rooms
