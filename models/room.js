@@ -73,7 +73,7 @@ class Room {
     }
 
     if (password === "") {
-      password = null;
+      hashedPassword = null;
       hasPass = false;
     };
 
@@ -96,7 +96,6 @@ class Room {
     );
 
     const room = result.rows[0];
-    console.log(room);
     return room;
   };
 

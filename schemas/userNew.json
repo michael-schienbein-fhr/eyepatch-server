@@ -6,26 +6,22 @@
     "username": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 30,
-      "pattern": "^[^\\s]*$"
+      "maxLength": 30
     },
     "password": {
       "type": "string",
       "minLength": 5,
-      "maxLength": 20,
-      "pattern": "^[^\\s]*$"
+      "maxLength": 20
     },
     "firstName": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 30,
-      "pattern": "^[^\\s]*$"
+      "maxLength": 30
     },
     "lastName": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 30,
-      "pattern": "^[^\\s]*$"
+      "maxLength": 30
     },
     "email": {
       "type": "string",
