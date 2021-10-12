@@ -88,6 +88,7 @@ router.get("/newest", async function (req, res, next) {
 router.get("/:id", ensureLoggedIn, async function (req, res, next) {
   try {
     const room = await Room.get(req.params.id);
+    console.log(room);
     return res.json({ room });
   } catch (err) {
     return next(err);
