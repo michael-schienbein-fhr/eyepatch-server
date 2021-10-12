@@ -72,12 +72,12 @@ class Room {
       throw new BadRequestError(`Duplicate Room: ${room_name}`);
     }
 
-    if (password === "") {
+    if (password.trim() === "") {
       hashedPassword = null;
       hasPass = false;
     };
 
-    if (password !== null) {
+    if (password.length > 1) {
       hashedPassword = await bcrypt.hash(password, BCRYPT_WF);
       hasPass = true;
     };
