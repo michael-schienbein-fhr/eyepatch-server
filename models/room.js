@@ -73,7 +73,7 @@ class Room {
     }
 
     if (password === "") {
-      hashedPassword = await bcrypt.hash(password, BCRYPT_WF);
+      password = null;
       hasPass = false;
     };
 
@@ -96,7 +96,7 @@ class Room {
     );
 
     const room = result.rows[0];
-
+    console.log(room);
     return room;
   };
 
