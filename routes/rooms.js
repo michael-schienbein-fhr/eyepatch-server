@@ -144,10 +144,10 @@ router.get("/:id/private", ensureRoomLoggedIn, async function (req, res, next) {
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.delete("rooms/:id", ensureLoggedIn, async function (req, res, next) {
   try {
-    await Room.remove(req.params.username);
-    return res.json({ deleted: req.params.username });
+    await Room.remove(req.params.id);
+    return res.json({ deleted: req.params.id });
   } catch (err) {
     return next(err);
   }
