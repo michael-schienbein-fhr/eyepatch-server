@@ -62,7 +62,7 @@ router.get("/:id", ensureLoggedIn, async function (req, res, next) {
 });
 
 // deletes room by id
-router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
+router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     await Room.remove(req.params.id);
     return res.json({ deleted: req.params.id });
