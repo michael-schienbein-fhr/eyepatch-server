@@ -4,6 +4,7 @@ const { SECRET_KEY } = require("../config");
 /** return signed JWT from user data. */
 
 function createUserToken(user) {
+  console.log(user)
   let payload = {
     type: "user",
     username: user.username,
@@ -14,8 +15,7 @@ function createUserToken(user) {
 }
 
 function createRoomToken(room) {
-  // console.assert(room.password !== undefined,
-  //     "createRoomToken passed new room without password property");
+  console.log(room)
   const passFlag = (room.haspass) ? true : false;
 
   let payload = {
@@ -25,8 +25,6 @@ function createRoomToken(room) {
     roomName: room.roomName,
     passFlag
   };
-  // console.debug(room, "WHAT THE FUCK")
-  // console.debug(payload, "PLEASE OH GOD");
   let signed = jwt.sign(payload, SECRET_KEY);
 
   return signed;

@@ -60,7 +60,6 @@ class Room {
     { room_owner, room_name, password }) {
     let hashedPassword;
     let hasPass;
-    console.log(password);
     const duplicateCheck = await db.query(
       `SELECT room_name
       FROM rooms
@@ -176,53 +175,37 @@ class Room {
     return room;
   };
 
-  /** Update user data with `data`.
-   *
-   * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
-   *
-   * Data can include:
-   *   { firstName, lastName, password, email, isAdmin }
-   *
-   * Returns { username, firstName, lastName, email, isAdmin }
-   *
-   * Throws NotFoundError if not found.
-   *
-   * WARNING: this function can set a new password or make a user an admin.
-   * Callers of this function must be certain they have validated inputs to this
-   * or a serious security risks are opened.
-   */
-  // UPDATE THIS
-  static async update(username, data) {
-    if (data.password) {
-      data.password = await bcrypt.hash(data.password, BCRYPT_WF);
-    }
+  // update room
+  // static async update(username, data) {
+  //   if (data.password) {
+  //     data.password = await bcrypt.hash(data.password, BCRYPT_WF);
+  //   }
 
-    const { setCols, values } = sqlForPartialUpdate(
-      data,
-      {
-        firstName: "first_name",
-        lastName: "last_name",
-        isAdmin: "is_admin",
-      });
-    const usernameVarIdx = "$" + (values.length + 1);
+  //   const { setCols, values } = sqlForPartialUpdate(
+  //     data,
+  //     {
+  //       firstName: "first_name",
+  //       lastName: "last_name",
+  //       isAdmin: "is_admin",
+  //     });
+  //   const usernameVarIdx = "$" + (values.length + 1);
 
-    const querySql = `UPDATE users 
-                      SET ${setCols} 
-                      WHERE username = ${usernameVarIdx} 
-                      RETURNING username,
-                                first_name AS "firstName",
-                                last_name AS "lastName",
-                                email,
-                                is_admin AS "isAdmin"`;
-    const result = await db.query(querySql, [...values, username]);
-    const user = result.rows[0];
+  //   const querySql = `UPDATE users 
+  //                     SET ${setCols} 
+  //                     WHERE username = ${usernameVarIdx} 
+  //                     RETURNING username,
+  //                               first_name AS "firstName",
+  //                               last_name AS "lastName",
+  //                               email,
+  //                               is_admin AS "isAdmin"`;
+  //   const result = await db.query(querySql, [...values, username]);
+  //   const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+  //   if (!user) throw new NotFoundError(`No user: ${username}`);
 
-    delete user.password;
-    return user;
-  }
+  //   delete user.password;
+  //   return user;
+  // }
 
   /** Delete given room from database; returns undefined. */
 
