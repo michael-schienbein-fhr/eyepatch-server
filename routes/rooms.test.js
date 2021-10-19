@@ -155,8 +155,8 @@ describe("DELETE /rooms/:id", function () {
   test("works for same user", async function () {
     const resp = await request(app)
       .delete(`/rooms/2`)
-      .set("authorization", `Bearer ${u3Token}`);
-    expect(resp.body).toEqual({ deleted: "3" });
+      .set("authorization", `Bearer ${u2Token}`);
+    expect(resp.body).toEqual({ deleted: "2" });
   });
 
   test("unauth if not same user", async function () {
