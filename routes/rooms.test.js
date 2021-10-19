@@ -273,6 +273,13 @@ describe("GET /rooms/newest", function () {
     });
   });
 });
+
+test("not found if room missing", async function () {
+  const resp = await request(app)
+    .delete(`/rooms/newest/room`)
+    .set("authorization", `Bearer ${adminToken}`);
+  expect(resp.statusCode).toEqual(404);
+});
 /************************************** DELETE /rooms/:id */
 
 describe("DELETE /rooms/:id", function () {

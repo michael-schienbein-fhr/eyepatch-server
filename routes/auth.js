@@ -104,7 +104,6 @@ router.post("/create", async function (req, res, next) {
     }
 
     const newRoom = await Room.createRoom({ ...req.body });
-    console.log(newRoom);
     const roomToken = createRoomToken(newRoom);
     return res.status(201).send({ roomToken });
   } catch (err) {

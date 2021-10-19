@@ -154,7 +154,7 @@ class Room {
    * Throws NotFoundError if room not found.
    **/
 
-  static async getNewest(id) {
+  static async getNewest() {
     const roomRes = await db.query(
       `SELECT id,
               room_owner AS "roomOwner",

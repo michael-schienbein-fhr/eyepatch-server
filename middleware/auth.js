@@ -86,19 +86,9 @@ function ensureCorrectUserOrAdmin(req, res, next) {
   }
 }
 
-function ensureRoomLoggedIn(req, res, next) {
-  try {
-    if (!res.locals.room) throw new UnauthorizedError();
-    return next();
-  } catch (err) {
-    return next(err);
-  }
-}
-
 module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureAdmin,
-  ensureCorrectUserOrAdmin,
-  ensureRoomLoggedIn
+  ensureCorrectUserOrAdmin
 };

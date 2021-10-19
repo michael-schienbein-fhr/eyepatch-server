@@ -11,26 +11,34 @@ const {
 
 
 const { SECRET_KEY } = require("../config");
-const testJwt = jwt.sign({ username: "test", isAdmin: false }, SECRET_KEY);
+const testUserJwt = jwt.sign({ type: "user", username: "test", isAdmin: false }, SECRET_KEY);
+const testRoomJwt = jwt.sign({ type: "room", roomName: "test", roomOwner: "tester", password: "password" }, SECRET_KEY);
 const badJwt = jwt.sign({ username: "test", isAdmin: false }, "wrong");
 
 
 describe("authenticateJWT", function () {
-  test("works: via header", function () {
+  test("user token works: via header", function () {
     expect.assertions(2);
-    const req = { headers: { authorization: `Bearer ${testJwt}` } };
+    const req = { headers: { authorization: `Bearer ${testUserJwt}` } };
     const res = { locals: {} };
     const next = function (err) {
       expect(err).toBeFalsy();
     };
     authenticateJWT(req, res, next);
-    expect(res.locals).toEqual({
-      user: {
-        iat: expect.any(Number),
-        username: "test",
-        isAdmin: false,
-      },
-    });
+    expect(res.locals).toEqual({ "user": { "iat": expect.any(Number), "isAdmin": false, "type": "user", "username": "test" } });
+  });
+
+  test("room token works: via header", function () {
+    expect.assertions(2);
+    const req = { headers: { authorization: `Bearer ${testRoomJwt}` } };
+    const res = { locals: {} };
+    const next = function (err) {
+      expect(err).toBeFalsy();
+    };
+    authenticateJWT(req, res, next);
+    expect(res.locals).toEqual(
+      { "room": { "iat": expect.any(Number), "password": "password", "roomName": "test", "roomOwner": "tester", "type": "room" } }
+    );
   });
 
   test("works: no header", function () {
@@ -126,7 +134,7 @@ describe("ensureCorrectUserOrAdmin", function () {
 
   test("works: same user", function () {
     expect.assertions(1);
-    const req = { params: { username: "test" } };
+    const req = { params: { username: "test" }, body: { username: "test" } };
     const res = { locals: { user: { username: "test", isAdmin: false } } };
     const next = function (err) {
       expect(err).toBeFalsy();
@@ -136,7 +144,7 @@ describe("ensureCorrectUserOrAdmin", function () {
 
   test("unauth: mismatch", function () {
     expect.assertions(1);
-    const req = { params: { username: "wrong" } };
+    const req = { params: { username: "wrong" }, body: { username: "wrong" } };
     const res = { locals: { user: { username: "test", isAdmin: false } } };
     const next = function (err) {
       expect(err instanceof UnauthorizedError).toBeTruthy();

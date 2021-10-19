@@ -119,93 +119,88 @@ describe("POST /auth/token/room", function () {
     const resp = await request(app)
       .post("/auth/token/room")
       .send({
-        room_name: "room1",
+        id: 1,
         password: "password1"
       });
+    expect(resp.body).toEqual({
+      "roomToken": expect.any(String),
+    });
   });
-  expect(resp.body).toEqual({
-    "userToken": expect.any(String),
+
+  test("unauth with non-existent room", async function () {
+    const resp = await request(app)
+      .post("/auth/token/room")
+      .send({
+        id: 9999,
+        password: "password1"
+      });
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("unauth with wrong password", async function () {
+    const resp = await request(app)
+      .post("/auth/token/room")
+      .send({
+        id: 1,
+        password: "nope"
+      });
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("bad request with missing data", async function () {
+    const resp = await request(app)
+      .post("/auth/token/room")
+      .send({
+        id: 1
+      });
+    expect(resp.statusCode).toEqual(400);
+  });
+
+  test("bad request with invalid data", async function () {
+    const resp = await request(app)
+      .post("/auth/token/room")
+      .send({
+        id: "one",
+        password: "above-is-a-number",
+      });
+    expect(resp.statusCode).toEqual(400);
   });
 });
 
-// test("unauth with non-existent room", async function () {
-//   const resp = await request(app)
-//     .post("/auth/token/room")
-//     .send({
-//       username: "no-such-user",
-//       password: "password1",
-//     });
-//   expect(resp.statusCode).toEqual(401);
-// });
-
-// test("unauth with wrong password", async function () {
-//   const resp = await request(app)
-//     .post("/auth/token/room")
-//     .send({
-//       username: "u1",
-//       password: "nope",
-//     });
-//   expect(resp.statusCode).toEqual(401);
-// });
-
-// test("bad request with missing data", async function () {
-//   const resp = await request(app)
-//     .post("/auth/token/room")
-//     .send({
-//       username: "u1",
-//     });
-//   expect(resp.statusCode).toEqual(400);
-// });
-
-// test("bad request with invalid data", async function () {
-//   const resp = await request(app)
-//     .post("/auth/token/room")
-//     .send({
-//       username: 42,
-//       password: "above-is-a-number",
-//     });
-//   expect(resp.statusCode).toEqual(400);
-// });
-// });
-
 /************************************** POST /auth/create */
 
-// describe("POST /auth/create", function () {
-//   test("works for anon", async function () {
-//     const resp = await request(app)
-//       .post("/auth/create")
-//       .send({
-//         username: "new",
-//         firstName: "first",
-//         lastName: "last",
-//         password: "password",
-//         email: "new@email.com",
-//       });
-//     expect(resp.statusCode).toEqual(201);
-//     expect(resp.body).toEqual({
-//       "userToken": expect.any(String),
-//     });
-//   });
+describe("POST /auth/create", function () {
+  test("works for anon", async function () {
+    const resp = await request(app)
+      .post("/auth/create")
+      .send({
+        room_owner: "u1",
+        room_name: "testroom",
+        password: "password1"        
+      });
+    expect(resp.statusCode).toEqual(201);
+    expect(resp.body).toEqual({
+      "roomToken": expect.any(String),
+    });
+  });
 
-//   test("bad request with missing fields", async function () {
-//     const resp = await request(app)
-//       .post("/auth/create")
-//       .send({
-//         username: "new",
-//       });
-//     expect(resp.statusCode).toEqual(400);
-//   });
+  test("bad request with missing fields", async function () {
+    const resp = await request(app)
+      .post("/auth/create")
+      .send({
+        password: "testpassword"
+      });
+    expect(resp.statusCode).toEqual(400);
+  });
 
-//   test("bad request with invalid data", async function () {
-//     const resp = await request(app)
-//       .post("/auth/create")
-//       .send({
-//         username: "new",
-//         firstName: "first",
-//         lastName: "last",
-//         password: "password",
-//         email: "not-an-email",
-//       });
-//     expect(resp.statusCode).toEqual(400);
-//   });
-// });
+  test("bad request with invalid data", async function () {
+    const resp = await request(app)
+      .post("/auth/create")
+      .send({
+        room_owner: "",
+        room_name: "testroom",
+        password: ""  
+      });
+    expect(resp.statusCode).toEqual(400);
+  });
+});
