@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE rooms (
   id SERIAL PRIMARY KEY,
   room_owner VARCHAR(25) NOT NULL
-    REFERENCES users,
+    REFERENCES users ON DELETE CASCADE,
   room_name VARCHAR(30) NOT NULL,
   password TEXT,
   has_pass BOOLEAN NOT NULL,
