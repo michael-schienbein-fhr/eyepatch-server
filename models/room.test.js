@@ -12,7 +12,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
-} = require("./_testCommon");
+} = require("../routes/_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -23,7 +23,7 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function () {
   test("works", async function () {
-    const room = await Room.authenticate(4, "password1");
+    const room = await Room.authenticate(4, "password4");
     expect(room).toEqual({
       "created_at": expect.anything(),
       "id": 4,
@@ -101,6 +101,33 @@ describe("findAll", function () {
   test("works", async function () {
     const rooms = await Room.findAll();
     expect(rooms).toEqual([
+      {
+        "created_at": expect.anything(),
+        "hasPass": true,
+        "id": 1,
+        "roomMembers": null,
+        "roomName": "room1",
+        "roomOwner": "u1",
+        "videoQueue": null
+      },
+      {
+        "created_at": expect.anything(),
+        "hasPass": true,
+        "id": 2,
+        "roomMembers": null,
+        "roomName": "room2",
+        "roomOwner": "u2",
+        "videoQueue": null
+      },
+      {
+        "created_at": expect.anything(),
+        "hasPass": false,
+        "id": 3,
+        "roomMembers": null,
+        "roomName": "room3",
+        "roomOwner": "u3",
+        "videoQueue": null
+      },
       {
         "created_at": expect.anything(),
         "hasPass": true,

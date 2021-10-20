@@ -23,8 +23,8 @@ describe("POST /auth/token/user", function () {
     const resp = await request(app)
       .post("/auth/token/user")
       .send({
-        username: "u1",
-        password: "password1",
+        username: "u5",
+        password: "password5",
       });
     expect(resp.body).toEqual({
       "userToken": expect.any(String),

@@ -36,7 +36,7 @@ describe("POST /rooms", function () {
     expect(resp.body).toEqual({
       "room": {
         "haspass": true,
-        "id": 4,
+        "id": 6,
         "roomname": "testroom",
         "roomowner": "u1",
       },
@@ -126,6 +126,24 @@ describe("GET /rooms", function () {
           "roomMembers": null,
           "roomName": "room3",
           "roomOwner": "u3",
+          "videoQueue": null,
+        },
+        {
+          "created_at": expect.any(String),
+          "hasPass": true,
+          "id": 4,
+          "roomMembers": null,
+          "roomName": "r4",
+          "roomOwner": "u4",
+          "videoQueue": null,
+        },
+        {
+          "created_at": expect.any(String),
+          "hasPass": false,
+          "id": 5,
+          "roomMembers": null,
+          "roomName": "r5",
+          "roomOwner": "u5",
           "videoQueue": null,
         },
       ],
@@ -247,10 +265,10 @@ describe("GET /rooms/newest", function () {
       "room": {
         "created_at": expect.any(String),
         "hasPass": false,
-        "id": 3,
+        "id": 5,
         "roomMembers": null,
-        "roomName": "room3",
-        "roomOwner": "u3",
+        "roomName": "r5",
+        "roomOwner": "u5",
         "videoQueue": null,
       },
     });
@@ -264,10 +282,10 @@ describe("GET /rooms/newest", function () {
       "room": {
         "created_at": expect.any(String),
         "hasPass": false,
-        "id": 3,
+        "id": 5,
         "roomMembers": null,
-        "roomName": "room3",
-        "roomOwner": "u3",
+        "roomName": "r5",
+        "roomOwner": "u5",
         "videoQueue": null,
       },
     });

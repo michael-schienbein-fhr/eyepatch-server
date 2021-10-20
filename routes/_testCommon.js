@@ -3,16 +3,19 @@
 const db = require("../db.js");
 const User = require("../models/user");
 const Room = require("../models/room");
+// const bcrypt = require("bcrypt");
+// const { BCRYPT_WF } = require("../config");
+
 const { createUserToken, createRoomToken } = require("../helpers/tokens");
 
 
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
-  await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 1")
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM rooms");
   await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 1")
+
 
   await User.register({
     username: "u1",
@@ -41,6 +44,24 @@ async function commonBeforeAll() {
     isAdmin: false,
   })
 
+  await User.register({
+    username: "u4",
+    firstName: "U4F",
+    lastName: "U4L",
+    email: "user4@user.com",
+    password: "password4",
+    isAdmin: false,
+  })
+
+  await User.register({
+    username: "u5",
+    firstName: "U5F",
+    lastName: "U5L",
+    email: "user5@user.com",
+    password: "password5",
+    isAdmin: false,
+  })
+
   await Room.createRoom(
     {
       room_owner: "u1",
@@ -61,7 +82,32 @@ async function commonBeforeAll() {
       room_name: "room3",
       password: ""
     });
+  await Room.createRoom(
+    {
+      room_owner: "u4",
+      room_name: "r4",
+      password: "password4"
+    });
 
+  await Room.createRoom(
+    {
+      room_owner: "u5",
+      room_name: "r5",
+      password: ""
+    });
+
+  // await db.query(`
+  //       INSERT INTO rooms(room_owner, 
+  //                         room_name, 
+  //                         password, 
+  //                         has_pass)
+  //       VALUES  ('u4', 'r4', $1, true),
+  //               ('u5', 'r5', $2, false)
+  //       RETURNING id, room_owner AS roomOwner, room_name AS roomName, has_pass AS hasPass`,
+  //   [
+  //     await bcrypt.hash("password1", BCRYPT_WF),
+  //     null,
+  //   ]);
 
 
 }

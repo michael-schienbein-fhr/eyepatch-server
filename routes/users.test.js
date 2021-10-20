@@ -157,6 +157,20 @@ describe("GET /users", function () {
           email: "user3@user.com",
           isAdmin: false,
         },
+        {
+          username: "u4",
+          firstName: "U4F",
+          lastName: "U4L",
+          email: "user4@user.com",
+          isAdmin: false,
+        },
+        {
+          username: "u5",
+          firstName: "U5F",
+          lastName: "U5L",
+          email: "user5@user.com",
+          isAdmin: false,
+        },
       ],
     });
   });
