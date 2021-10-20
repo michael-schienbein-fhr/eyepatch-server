@@ -23,13 +23,13 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function () {
   test("works", async function () {
-    const room = await Room.authenticate(1, "password1");
+    const room = await Room.authenticate(4, "password1");
     expect(room).toEqual({
       "created_at": expect.anything(),
-      "id": 1,
+      "id": 4,
       "roomMembers": null,
-      "roomName": "r1",
-      "roomOwner": "u1",
+      "roomName": "r4",
+      "roomOwner": "u4",
       "videoQueue": null
     });
   });
@@ -45,7 +45,7 @@ describe("authenticate", function () {
 
   test("unauth if wrong password", async function () {
     try {
-      await Room.authenticate(1, "wrong");
+      await Room.authenticate(4, "wrong");
       fail();
     } catch (err) {
       expect(err instanceof UnauthorizedError).toBeTruthy();
@@ -57,8 +57,8 @@ describe("authenticate", function () {
 
 describe("createRoom", function () {
   const newRoom = {
-    room_owner: "u1",
-    room_name: "testroom1",
+    room_owner: "u4",
+    room_name: "r6",
     password: "password"
   };
 
@@ -68,11 +68,11 @@ describe("createRoom", function () {
     });
     expect(room).toEqual({
       "haspass": true,
-      "id": 3,
-      "roomname": "testroom1",
-      "roomowner": "u1",
+      "id": 6,
+      "roomname": "r6",
+      "roomowner": "u4",
     });
-    const found = await db.query("SELECT * FROM rooms WHERE id = 3");
+    const found = await db.query("SELECT * FROM rooms WHERE id = 6");
     expect(found.rows.length).toEqual(1);
     expect(found.rows[0].has_pass).toEqual(true);
     expect(found.rows[0].password.startsWith("$2b$")).toEqual(true);
@@ -104,19 +104,19 @@ describe("findAll", function () {
       {
         "created_at": expect.anything(),
         "hasPass": true,
-        "id": 1,
+        "id": 4,
         "roomMembers": null,
-        "roomName": "r1",
-        "roomOwner": "u1",
+        "roomName": "r4",
+        "roomOwner": "u4",
         "videoQueue": null
       },
       {
         "created_at": expect.anything(),
         "hasPass": false,
-        "id": 2,
+        "id": 5,
         "roomMembers": null,
-        "roomName": "r2",
-        "roomOwner": "u2",
+        "roomName": "r5",
+        "roomOwner": "u5",
         "videoQueue": null
       }
     ]);
@@ -127,14 +127,14 @@ describe("findAll", function () {
 
 describe("get", function () {
   test("works", async function () {
-    let room = await Room.get(1);
+    let room = await Room.get(4);
     expect(room).toEqual({
       "created_at": expect.anything(),
       "hasPass": true,
-      "id": 1,
+      "id": 4,
       "roomMembers": null,
-      "roomName": "r1",
-      "roomOwner": "u1",
+      "roomName": "r4",
+      "roomOwner": "u4",
       "videoQueue": null
     });
   });
@@ -156,10 +156,10 @@ describe("get", function () {
     expect(room).toEqual({
       "created_at": expect.anything(),
       "hasPass": false,
-      "id": 2,
+      "id": 5,
       "roomMembers": null,
-      "roomName": "r2",
-      "roomOwner": "u2",
+      "roomName": "r5",
+      "roomOwner": "u5",
       "videoQueue": null
     });
   });
@@ -168,9 +168,9 @@ describe("get", function () {
 
 describe("remove", function () {
   test("works", async function () {
-    await Room.remove(1);
+    await Room.remove(5);
     const res = await db.query(
-      "SELECT * FROM rooms WHERE id = 1");
+      "SELECT * FROM rooms WHERE id = 5");
     expect(res.rows.length).toEqual(0);
   });
 

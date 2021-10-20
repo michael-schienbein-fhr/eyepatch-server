@@ -23,9 +23,9 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function () {
   test("works", async function () {
-    const user = await User.authenticate("u1", "password1");
+    const user = await User.authenticate("u4", "password1");
     expect(user).toEqual({
-      username: "u1",
+      username: "u4",
       firstName: "U1F",
       lastName: "U1L",
       email: "u1@email.com",
@@ -112,14 +112,14 @@ describe("findAll", function () {
     const users = await User.findAll();
     expect(users).toEqual([
       {
-        username: "u1",
+        username: "u4",
         firstName: "U1F",
         lastName: "U1L",
         email: "u1@email.com",
         isAdmin: false,
       },
       {
-        username: "u2",
+        username: "u5",
         firstName: "U2F",
         lastName: "U2L",
         email: "u2@email.com",
@@ -133,9 +133,9 @@ describe("findAll", function () {
 
 describe("get", function () {
   test("works", async function () {
-    let user = await User.get("u1");
+    let user = await User.get("u4");
     expect(user).toEqual({
-      username: "u1",
+      username: "u4",
       firstName: "U1F",
       lastName: "U1L",
       email: "u1@email.com",
@@ -164,25 +164,25 @@ describe("update", function () {
   };
 
   test("works", async function () {
-    let job = await User.update("u1", updateData);
+    let job = await User.update("u4", updateData);
     expect(job).toEqual({
-      username: "u1",
+      username: "u4",
       ...updateData,
     });
   });
 
   test("works: set password", async function () {
-    let job = await User.update("u1", {
+    let job = await User.update("u4", {
       password: "new",
     });
     expect(job).toEqual({
-      username: "u1",
+      username: "u4",
       firstName: "U1F",
       lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
     });
-    const found = await db.query("SELECT * FROM users WHERE username = 'u1'");
+    const found = await db.query("SELECT * FROM users WHERE username = 'u4'");
     expect(found.rows.length).toEqual(1);
     expect(found.rows[0].password.startsWith("$2b$")).toEqual(true);
   });
@@ -213,9 +213,9 @@ describe("update", function () {
 
 describe("remove", function () {
   test("works", async function () {
-    await User.remove("u1");
+    await User.remove("u4");
     const res = await db.query(
-      "SELECT * FROM users WHERE username='u1'");
+      "SELECT * FROM users WHERE username='u4'");
     expect(res.rows.length).toEqual(0);
   });
 

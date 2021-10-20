@@ -7,9 +7,10 @@ const { BCRYPT_WF } = require("../config");
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
+  await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 4");
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM rooms");
-  await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 1");
+  await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 4");
 
   await db.query(`
         INSERT INTO users(username,
@@ -17,8 +18,8 @@ async function commonBeforeAll() {
                           first_name,
                           last_name,
                           email)
-        VALUES ('u1', $1, 'U1F', 'U1L', 'u1@email.com'),
-               ('u2', $2, 'U2F', 'U2L', 'u2@email.com')
+        VALUES ('u4', $1, 'U1F', 'U1L', 'u1@email.com'),
+               ('u5', $2, 'U2F', 'U2L', 'u2@email.com')
         RETURNING username`,
     [
       await bcrypt.hash("password1", BCRYPT_WF),
@@ -29,8 +30,8 @@ async function commonBeforeAll() {
                           room_name, 
                           password, 
                           has_pass)
-        VALUES  ('u1', 'r1', $1, true),
-                ('u2', 'r2', $2, false)
+        VALUES  ('u4', 'r4', $1, true),
+                ('u5', 'r5', $2, false)
         RETURNING id, room_owner AS roomOwner, room_name AS roomName, has_pass AS hasPass`,
     [
       await bcrypt.hash("password1", BCRYPT_WF),

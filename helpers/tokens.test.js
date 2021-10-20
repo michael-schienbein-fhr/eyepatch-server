@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
-const { createToken } = require("./tokens");
+const { createUserToken, createRoomToken } = require("./tokens");
 const { SECRET_KEY } = require("../config");
 
-describe("createToken", function () {
+describe("createUserToken", function () {
   test("works: not admin", function () {
-    const token = createToken({ username: "test", is_admin: false });
+    const token = createUserToken({ type: "user", username: "test", is_admin: false });
     const payload = jwt.verify(token, SECRET_KEY);
     expect(payload).toEqual({
+      type: "user",
       iat: expect.any(Number),
       username: "test",
       isAdmin: false,
@@ -14,9 +15,10 @@ describe("createToken", function () {
   });
 
   test("works: admin", function () {
-    const token = createToken({ username: "test", isAdmin: true });
+    const token = createUserToken({ type: "user", username: "test", isAdmin: true });
     const payload = jwt.verify(token, SECRET_KEY);
     expect(payload).toEqual({
+      type: "user",
       iat: expect.any(Number),
       username: "test",
       isAdmin: true,
@@ -25,12 +27,35 @@ describe("createToken", function () {
 
   test("works: default no admin", function () {
     // given the security risk if this didn't work, checking this specifically
-    const token = createToken({ username: "test" });
+    const token = createUserToken({ type: "user", username: "test" });
     const payload = jwt.verify(token, SECRET_KEY);
     expect(payload).toEqual({
+      type: "user",
       iat: expect.any(Number),
       username: "test",
       isAdmin: false,
     });
+  });
+});
+
+describe("createRoomToken", function () {
+  test("works", function () {
+    const token = createRoomToken({
+      type: "room",
+      id: 1,
+      roomOwner: 'u1',
+      roomName: 'r1',
+      passFlag: false
+    });
+    const payload = jwt.verify(token, SECRET_KEY);
+    expect(payload).toEqual({
+      "iat": expect.any(Number),
+      "id": 1,
+      "passFlag": false,
+      "roomName": "r1",
+      "roomOwner": "u1",
+      "type": "room"
+    }
+    );
   });
 });

@@ -9,6 +9,7 @@ const { createUserToken, createRoomToken } = require("../helpers/tokens");
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM users");
+  await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 1")
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM rooms");
   await db.query("ALTER SEQUENCE rooms_id_seq RESTART WITH 1")
