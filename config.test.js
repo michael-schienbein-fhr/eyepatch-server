@@ -6,12 +6,13 @@ describe("config can come from env", function () {
     process.env.PORT = "5000";
     process.env.DATABASE_URL = "other";
     process.env.NODE_ENV = "other";
+    process.env.BCRYPT_WF = 12
 
     const config = require("./config");
     expect(config.SECRET_KEY).toEqual("abc");
     expect(config.PORT).toEqual(5000);
     expect(config.getDatabaseUri()).toEqual("other");
-    expect(config.BCRYPT_WORK_FACTOR).toEqual(12);
+    expect(config.BCRYPT_WF).toEqual(12);
 
     delete process.env.SECRET_KEY;
     delete process.env.PORT;
