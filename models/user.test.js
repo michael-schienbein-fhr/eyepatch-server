@@ -23,12 +23,12 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function () {
   test("works", async function () {
-    const user = await User.authenticate("u4", "password1");
+    const user = await User.authenticate("u4", "password4");
     expect(user).toEqual({
       username: "u4",
-      firstName: "U1F",
-      lastName: "U1L",
-      email: "u1@email.com",
+      firstName: "U4F",
+      lastName: "U4L",
+      email: "user4@user.com",
       isAdmin: false,
     });
   });
@@ -112,17 +112,38 @@ describe("findAll", function () {
     const users = await User.findAll();
     expect(users).toEqual([
       {
-        username: "u4",
+        username: "u1",
         firstName: "U1F",
         lastName: "U1L",
-        email: "u1@email.com",
+        email: "user1@user.com",
+        isAdmin: true,
+      },
+      {
+        username: "u2",
+        firstName: "U2F",
+        lastName: "U2L",
+        email: "user2@user.com",
+        isAdmin: false,
+      },
+      {
+        username: "u3",
+        firstName: "U3F",
+        lastName: "U3L",
+        email: "user3@user.com",
+        isAdmin: false,
+      },
+      {
+        username: "u4",
+        firstName: "U4F",
+        lastName: "U4L",
+        email: "user4@user.com",
         isAdmin: false,
       },
       {
         username: "u5",
-        firstName: "U2F",
-        lastName: "U2L",
-        email: "u2@email.com",
+        firstName: "U5F",
+        lastName: "U5L",
+        email: "user5@user.com",
         isAdmin: false,
       },
     ]);
@@ -136,9 +157,9 @@ describe("get", function () {
     let user = await User.get("u4");
     expect(user).toEqual({
       username: "u4",
-      firstName: "U1F",
-      lastName: "U1L",
-      email: "u1@email.com",
+      firstName: "U4F",
+      lastName: "U4L",
+      email: "user4@user.com",
       isAdmin: false,
     });
   });
@@ -177,9 +198,9 @@ describe("update", function () {
     });
     expect(job).toEqual({
       username: "u4",
-      firstName: "U1F",
-      lastName: "U1L",
-      email: "u1@email.com",
+      firstName: "U4F",
+      lastName: "U4L",
+      email: "user4@user.com",
       isAdmin: false,
     });
     const found = await db.query("SELECT * FROM users WHERE username = 'u4'");
