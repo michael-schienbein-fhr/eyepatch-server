@@ -236,7 +236,8 @@ describe("GET /users/:username", function () {
   test("unauth for other users", async function () {
     const resp = await request(app)
       .get(`/users/u1`)
-      .set("authorization", `Bearer ${u3Token}`);
+      .set("authorization", `Bearer ${unpm install --save-dev superwstest
+Token}`);
     expect(resp.statusCode).toEqual(401);
   });
 
